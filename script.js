@@ -8,12 +8,19 @@ document.getElementById('generate').addEventListener('click', function() {
     gridElement.innerHTML = '';
 
     if (!prompt) {
-        messageElement.innerHTML = 'Please enter a prompt first.';
+        messageElement.innerHTML = 'Please enter a prompt first. Or just type "funny" for a surprise!';
         return;
     }
 
     // Fetch images from a public API (e.g., Unsplash)
     fetchImages(prompt);
+});
+
+// Allow pressing Enter to trigger the search
+document.getElementById('prompt').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        document.getElementById('generate').click();
+    }
 });
 
 async function fetchImages(query) {
@@ -28,7 +35,7 @@ async function fetchImages(query) {
         displayImages(images);
     } catch (error) {
         console.error('Error fetching images:', error);
-        document.getElementById('message').innerHTML = 'Failed to fetch images.';
+        document.getElementById('message').innerHTML = 'Failed to fetch images. Maybe try a different prompt?';
     }
 }
 

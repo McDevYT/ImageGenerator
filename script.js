@@ -38,7 +38,7 @@ document.getElementById('prompt').addEventListener('keypress', function(e) {
 });
 
 async function fetchImages(query) {
-    const encryptedApiKey = 'd1VkcklIZU5sNFlJNEFHb1dTRDZZajBtMEBXclZvb1ROeDU3TW90dGJMNlZXcDVGNU1Y==';
+    const encryptedApiKey = 'd1VkcklIZU5sNFlJNEFHb1dTRDZZajBtM0FXclZvb1ROeDU3TW90dGJMNlZXcDVGNU1Y'; // Correct Base64-encoded key
     const apiKey = decryptApiKey(encryptedApiKey);
     const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=4`;
 

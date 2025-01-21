@@ -24,7 +24,7 @@ document.getElementById('prompt').addEventListener('keypress', function(e) {
 });
 
 async function fetchImages(query) {
-    const accessKey = '1AJjQjdSGMzM0XfRpu4nEKSIAAyfLBqttMGICGz_D84'; // Replace with your Unsplash API access key
+    const accessKey = 'AKoG4K3DrRlWK2WmWWtD6pOD9e9YsGK9dZKrgWfeLsI'; // Replace with your Unsplash API access key
     const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&client_id=${accessKey}&per_page=4`;
 
     try {

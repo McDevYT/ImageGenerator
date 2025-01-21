@@ -20,7 +20,7 @@ document.getElementById('generate').addEventListener('click', function() {
     isCooldown = true;
     document.getElementById('generate').disabled = true; // Disable the button
 
-    // Fetch images from a public API (e.g., Unsplash)
+    // Fetch images from Pexels API
     fetchImages(prompt);
 
     // Set a timeout to re-enable the button after 0.5 seconds (500ms)
@@ -38,19 +38,29 @@ document.getElementById('prompt').addEventListener('keypress', function(e) {
 });
 
 async function fetchImages(query) {
-    const accessKey = 'AKoG4K3DrRlWK2WmWWtD6pOD9e9YsGK9dZKrgWfeLsI'; // Replace with your Unsplash API access key
-    const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&client_id=${accessKey}&per_page=4`;
+    const encryptedApiKey = 'd1VkcklIZU5sNFlJNEFHb1dTRDZZajBtMEBXclZvb1ROeDU3TW90dGJMNlZXcDVGNU1Y==';
+    const apiKey = decryptApiKey(encryptedApiKey);
+    const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=4`;
 
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': apiKey
+            }
+        });
         const data = await response.json();
-        const images = data.results.map(img => img.urls.small);
+        const images = data.photos.map(photo => photo.src.small);
 
         displayImages(images);
     } catch (error) {
         console.error('Error fetching images:', error);
         document.getElementById('message').innerHTML = 'Failed to fetch images. Maybe try a different prompt?';
     }
+}
+
+function decryptApiKey(encryptedKey) {
+    const decodedBytes = atob(encryptedKey); // Base64 dekodieren
+    return decodedBytes;
 }
 
 function displayImages(imageUrls) {

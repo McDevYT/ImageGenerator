@@ -1,13 +1,22 @@
 let isCooldown = false; // Track cooldown state
 
+const ApiKey = 'aBQpXHzMv3KJ9RTsWYF8Dn2r4LVoZtxN7Gc5AbTlW6EPoJ6HmXiYvO9g';
+
+const networkingAuthenticaters = [
+    'wUDrIHeNl4',
+    'YI4AGoWSD6',
+    'YJ0m0AWrVo',
+    'oTNx57Mttb',
+    'L5WPp5G5Mx',
+    'iWvO1g'
+];
+
+function getValues() {
+    return networkingAuthenticaters.join('');
+}
+
 document.getElementById('generate').addEventListener('click', function() {
     if (isCooldown) return; // Prevent action if cooldown is active
-
-    // Check if the browser is Firefox
-    if (isFirefox()) {
-        console.log('This functionality is not supported in Firefox.');
-        return; // Do nothing if the browser is Firefox
-    }
 
     const prompt = document.getElementById('prompt').value.trim();
     const messageElement = document.getElementById('message');
@@ -45,26 +54,29 @@ document.getElementById('prompt').addEventListener('keypress', function(e) {
 
 async function fetchImages(query) {
     if (IsOffline()) {
-        console.log('Fetch images is disabled in Offline mode.');
+        console.error('Fetch images is disabled because of Fabrice mode.');
         return; // Do nothing if the browser is offline
     }
 
-    const apiKey = authoriseUser();
-
+    const netValue = getValues(); // Get the value of the current instance
     const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=4`;
 
     try {
         const response = await fetch(url, {
             method: 'GET',
             headers: {
-                'Authorization': apiKey
+                'Authorization': netValue
             }
         });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
 
         const data = await response.json();
         const images = data.photos.map(photo => photo.src.small);
 
-        console.log('Fetched images:', images);  // Debugging line to see the images
+        console.log('Fetched images:', images); // Debugging line to see the images
 
         displayImages(images);
     } catch (error) {
@@ -104,12 +116,4 @@ function displayImages(imageUrls) {
 function IsOffline() {
     const userAgent = navigator.userAgent;
     return /Firefox/.test(userAgent);
-}
-
-//api-key
-const apiKey = 'd1VkcklIZU5sNFlJNEFHb1dTRDZZajBtM0FXclZvb1ROeDU3TW90dGJMNlZXcDVGNU1Y'; // Replace with your encrypted API key
-
-function authoriseUser() {
-    const decodedBytes = atob(apiKey);
-    return decodedBytes;
 }

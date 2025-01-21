@@ -1,3 +1,6 @@
+<script src="https://cdn.jsdelivr.net/npm/pexels"></script> <!-- Load Pexels SDK via CDN -->
+
+<script>
 let isCooldown = false; // Track cooldown state
 
 document.getElementById('generate').addEventListener('click', function() {
@@ -40,16 +43,15 @@ document.getElementById('prompt').addEventListener('keypress', function(e) {
 async function fetchImages(query) {
     const encryptedApiKey = 'd1VkcklIZU5sNFlJNEFHb1dTRDZZajBtM0FXclZvb1ROeDU3TW90dGJMNlZXcDVGNU1Y'; // Correct Base64-encoded key
     const apiKey = decryptApiKey(encryptedApiKey);
-    const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=4`;
+
+    // Create the Pexels client
+    const client = createClient(apiKey); // Using the API key here
 
     try {
-        const response = await fetch(url, {
-            headers: {
-                'Authorization': apiKey
-            }
-        });
-        const data = await response.json();
-        const images = data.photos.map(photo => photo.src.small);
+        const photos = await client.photos.search({ query, per_page: 4 });
+
+        // Extract image URLs
+        const images = photos.photos.map(photo => photo.src.small);
 
         displayImages(images);
     } catch (error) {
@@ -59,7 +61,7 @@ async function fetchImages(query) {
 }
 
 function decryptApiKey(encryptedKey) {
-    const decodedBytes = atob(encryptedKey); // Base64 dekodieren
+    const decodedBytes = atob(encryptedKey); // Base64 decode
     return decodedBytes;
 }
 
@@ -85,3 +87,4 @@ function displayImages(imageUrls) {
         gridElement.appendChild(div);
     });
 }
+</script>

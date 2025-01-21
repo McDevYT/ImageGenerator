@@ -15,13 +15,6 @@ body {
 
 .header {
     margin-bottom: 20px;
-    position: fixed; /* Fixed the input bar at the top */
-    top: 0;
-    left: 0;
-    right: 0;/* Background color for the input bar */
-    padding: 20px; /* Increased padding for bigger input field */
-    z-index: 1001; /* Ensure it is on top of other elements */
-    text-align: center; /* Centering the content inside the input bar */
 }
 
 .input-container {

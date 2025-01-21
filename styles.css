@@ -18,11 +18,9 @@ body {
     position: fixed; /* Fixed the input bar at the top */
     top: 0;
     left: 0;
-    right: 0;
-    background-color: white; /* Background color for the input bar */
+    right: 0;/* Background color for the input bar */
     padding: 20px; /* Increased padding for bigger input field */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow effect */
-    z-index: 1000; /* Ensure it is on top of other elements */
+    z-index: 1001; /* Ensure it is on top of other elements */
     text-align: center; /* Centering the content inside the input bar */
 }
 

@@ -1,4 +1,8 @@
+let isCooldown = false; // Track cooldown state
+
 document.getElementById('generate').addEventListener('click', function() {
+    if (isCooldown) return; // Prevent action if cooldown is active
+
     const prompt = document.getElementById('prompt').value.trim();
     const messageElement = document.getElementById('message');
     const gridElement = document.getElementById('image-grid');
@@ -12,8 +16,18 @@ document.getElementById('generate').addEventListener('click', function() {
         return;
     }
 
+    // Start cooldown
+    isCooldown = true;
+    document.getElementById('generate').disabled = true; // Disable the button
+
     // Fetch images from a public API (e.g., Unsplash)
     fetchImages(prompt);
+
+    // Set a timeout to re-enable the button after 0.5 seconds (500ms)
+    setTimeout(function() {
+        isCooldown = false;
+        document.getElementById('generate').disabled = false; // Enable the button
+    }, 500); // Cooldown period: 500ms
 });
 
 // Allow pressing Enter to trigger the search
